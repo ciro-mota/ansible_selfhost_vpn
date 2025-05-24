@@ -17,6 +17,10 @@ git clone https://github.com/ciro-mota/ansible_selfhost_vpn
 export WG_PASSWORD=$(htpasswd -nbBC 12 "" <your-password-here> | cut -d ':' -f2)
 ```
 
+- Enter the server's IP address where WireGuard will be provisioned in the `hosts` file.
+
+- You will need to generate SSH passwords and configure them with your cloud provider where you will provision the WireGuard.
+
 - Then simply run the Ansible playbook.
 
 ```bash
