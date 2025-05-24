@@ -1,0 +1,3 @@
+- name: Update and manage OS
+  ansible.builtin.import_tasks:
+   file: docker.yml

@@ -1,0 +1,3 @@
+---
+# vars file for update
+wg_password: "{{ lookup('env', 'WG_PASSWORD') }}"
