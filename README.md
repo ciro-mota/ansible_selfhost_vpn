@@ -21,6 +21,12 @@ export WG_PASSWORD=$(htpasswd -nbBC 12 "" <your-password-here> | cut -d ':' -f2)
 
 - You will need to generate SSH passwords and configure them with your cloud provider where you will provision the WireGuard.
 
+- It is necessary to install the `community.docker` module for it to work, run the command below to install it on your system.
+
+```bash
+ansible-galaxy collection install community.docker
+```
+
 - Then simply run the Ansible playbook.
 
 ```bash
