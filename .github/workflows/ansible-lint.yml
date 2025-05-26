@@ -10,6 +10,8 @@ run-name: ${{ github.event.inputs.manual_commit_message }}
 
 on:
   push:
+    paths:
+      - '**.yml'
   workflow_dispatch:
     inputs:
       manual_commit_message:
