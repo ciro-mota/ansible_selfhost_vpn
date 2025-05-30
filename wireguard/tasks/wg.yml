@@ -16,5 +16,5 @@
       - "51820:51820/udp"
       - "51821:51821/tcp"
     volumes:
-      - "/wg/:/etc/wireguard"
+      - "/wg-easy/:/etc/wireguard"
     restart_policy: unless-stopped
