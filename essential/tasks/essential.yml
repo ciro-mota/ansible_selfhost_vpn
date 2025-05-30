@@ -5,18 +5,15 @@
     cache_valid_time: 3600
     upgrade: safe
     autoremove: true
+  when: ansible_os_family == "Debian"
 
 - name: Install required packages
-  ansible.builtin.apt:
-    name: "{{ item }}"
+  ansible.builtin.package:
+    name:
+      - unzip
+      - wget
+      - curl
+      - git
+      - python3
+      - python3-pip
     state: present
-    update_cache: false
-  loop:
-    - unzip
-    - wget
-    - curl
-    - git
-    - ranger
-    - build-essential
-    - python3
-    - python3-pip
