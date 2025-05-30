@@ -1,3 +1,14 @@
-- name: Update and manage OS
+- name: Install Docker on Debian
   ansible.builtin.import_tasks:
-   file: docker.yml
+   file: debian.yml
+  when: ansible_distribution == "Debian"
+
+- name: Install Docker on Ubuntu
+  ansible.builtin.import_tasks:
+   file: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Docker on RHEL family distributions
+  ansible.builtin.import_tasks:
+   file: rhel.yml
+  when: ansible_distribution in ["RedHat", "Rocky", "AlmaLinux"]
