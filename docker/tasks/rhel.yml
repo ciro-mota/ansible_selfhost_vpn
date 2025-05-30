@@ -1,0 +1,57 @@
+- name: Ensure required packages are installed
+  ansible.builtin.dnf:
+    name:
+      - dnf-plugins-core
+      - iptables
+      - iptables-services
+      - kernel-modules
+    state: present
+
+- name: Install Docker via pip
+  ansible.builtin.pip:
+    name: docker
+    executable: pip3
+
+- name: Add Docker's official repo
+  ansible.builtin.command: dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+  changed_when: false
+
+- name: Install Docker and related packages
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - containerd.io
+    - docker-ce
+    - docker-ce-cli
+    - docker-buildx-plugin
+    - docker-compose-plugin
+
+- name: Add Docker group
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add user to Docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+
+- name: Enable and start Docker services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - docker.service
+    - containerd.service
+
+- name: Add prereqs for iptables
+  ansible.builtin.shell: |
+    modprobe ip_tables
+    echo 'ip_tables' >> /etc/modules
+  args:
+    executable: /bin/bash
+  changed_when: false
