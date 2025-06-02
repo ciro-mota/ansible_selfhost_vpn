@@ -10,9 +10,10 @@
 
 This repo is forked from [rishavnandi/ansible_selfhost_vpn](https://github.com/rishavnandi/ansible_selfhost_vpn) and contains Ansible playbooks to setup a self-hosted WireGuard VPN server with my modifications. Originally based on [wg-easy](https://github.com/WeeJeWel/wg-easy) which provides a nice web interface to add and remove clients.
 
-## Support
+## ⚠️ Support
 
-Only the OS below support running this script.
+> [!NOTE]
+>**Only** the OS's below have been tested for use with this script.
 
 |     OS     |   Support   |
 | ---------- | ----------- |
@@ -23,7 +24,7 @@ Only the OS below support running this script.
 | RockyLinux |     Yes     |
 
 
-## Usage
+## 🚀 Usage
 
 - Clone the repo:
 
@@ -44,7 +45,8 @@ ansible-vault encrypt_string $(htpasswd -nbBC 12 "" your-password-here | cut -d 
 
 - Set your `private key` on the `host` file.
 
-    - If using with Oracle, pass the parameter `ansible_user=ubuntu` on the `host` file.
+> [!TIP]
+>If using with Oracle, pass the parameter `ansible_user=ubuntu` on the `host` file.
 
 - It is necessary to install the `community.docker` module for it to work, run the command below to install it on your system.
 
@@ -59,7 +61,10 @@ ansible-playbook -i hosts run.yml --vault-password-file ~/vault-pass
 ```
 - Finally you can visit the `wg-easy` at your server's IP address on port `51821` to configure your WireGuard devices.
 
-You can also configure the [Nginx Proxy Manager](https://nginxproxymanager.com/guide/) so that you can access your services over the internet using a domain name. You should access it through your server's IP address on port `81`.
+
+## 🔓 Extras
+
+This script also installs the [Nginx Proxy Manager](https://nginxproxymanager.com/guide/) and you can also configure for you can access your services over the internet using a domain name. You should access it through your server's IP address on port `81`.
 
 On your first access you must access it with the credentials below:
 
@@ -71,7 +76,7 @@ Password: changeme
 You can obtain a free domain name from [DuckDNS](https://www.duckdns.org/) to use with Nginx Proxy Manager, also you can use a domain name if you already own.
 Make sure the domain name is pointing to your server's public IP address. [See how](https://www.youtube.com/watch?v=qlcVx-k-02E).
 
-## Tested on
+## 📌 Tested on
 
 <img alt="DigitalOcean" src="https://img.shields.io/badge/DigitalOcean-0080FF?logo=digitalocean&logoColor=fff&style=for-the-badge" />
 
