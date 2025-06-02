@@ -31,4 +31,4 @@ jobs:
           args: ""
           setup_python: "true"
           working_directory: ""
-          requirements_file: ".github/workflows/requirements.yml"
+          requirements_file: "requirements/requirements.yml"
