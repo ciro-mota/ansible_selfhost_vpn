@@ -3,7 +3,7 @@
 <p align="center">
     <img alt="Ansible" src="https://img.shields.io/badge/Ansible-000000?style=for-the-badge&logo=ansible&logoColor=white" />
     <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/ciro-mota/ansible_selfhost_vpn/ansible-lint.yml?style=for-the-badge&logo=github">
+    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/ciro-mota/ansible_selfhost_vpn/ansible-lint.yml?style=for-the-badge&logo=github&label=Lint">
 </p>
 
 ![Screenshot](https://user-images.githubusercontent.com/101431112/209468911-88c70c8d-c686-4dac-b4c7-bc3b1fb67568.png)
@@ -30,13 +30,13 @@ Only the OS below support running this script.
 ```bash
 git clone https://github.com/ciro-mota/ansible_selfhost_vpn
 ```
-- The password to access `wg-easy` needs to be encrypted in `Bcrypt` format. Run the command below to generate it and save it with Ansible Vault.
+- The password to access `wg-easy` needs to be encrypted in `Bcrypt` format. Open a terminal at the root of the `ansible_selfhost_vpn` directory and run the command below to generate it and save it with Ansible Vault.
 
 ```bash
-ansible-vault encrypt_string $(htpasswd -nbBC 12 "" ciromota | cut -d ':' -f2) --name 'wg_password' >> wireguard/vars/main.yml
+ansible-vault encrypt_string $(htpasswd -nbBC 12 "" your-password-here | cut -d ':' -f2) --name 'wg_password' >> wireguard/vars/main.yml
 ```
 
-- Create a file with your password vault in your `/home` directory.
+- Create a file `vault-pass` with the password you set in the previous step in Ansible Vault in your `/home` directory.
 
 - Enter the server's IP address where WireGuard will be provisioned in the `hosts` file.
 
@@ -55,7 +55,7 @@ ansible-galaxy collection install community.docker
 - Then simply run the Ansible playbook.
 
 ```bash
-ansible-playbook -i hosts run.yml
+ansible-playbook -i hosts run.yml --vault-password-file ~/vault-pass
 ```
 - Finally you can visit the `wg-easy` at your server's IP address on port `51821` to configure your WireGuard devices.
 
