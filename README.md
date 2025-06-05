@@ -6,7 +6,7 @@
     <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/ciro-mota/ansible_selfhost_vpn/ansible-lint.yml?style=for-the-badge&logo=github&label=Lint">
 </p>
 
-![Screenshot](https://user-images.githubusercontent.com/101431112/209468911-88c70c8d-c686-4dac-b4c7-bc3b1fb67568.png)
+![Screenshot](files/screenshot.webp)
 
 This repo is forked from [rishavnandi/ansible_selfhost_vpn](https://github.com/rishavnandi/ansible_selfhost_vpn) and contains Ansible playbooks to setup a self-hosted WireGuard VPN server with my modifications. Originally based on [wg-easy](https://github.com/WeeJeWel/wg-easy) which provides a nice web interface to add and remove clients.
 
@@ -41,7 +41,7 @@ ansible-vault encrypt_string $(htpasswd -nbBC 12 "" your-password-here | cut -d 
 
 - Enter the server's IP address where WireGuard will be provisioned in the `hosts` file.
 
-- You will need to generate SSH passwords and configure them with your cloud provider where you will provision the WireGuard.
+- You will need to generate SSH keys and configure them with your cloud provider where you will provision the WireGuard.
 
 - Set your `private key` on the `host` file.
 
@@ -73,8 +73,14 @@ Email:    admin@example.com
 Password: changeme
 ```
 
-You can obtain a free domain name from [DuckDNS](https://www.duckdns.org/) to use with Nginx Proxy Manager, also you can use a domain name if you already own.
-Make sure the domain name is pointing to your server's public IP address. [See how](https://www.youtube.com/watch?v=qlcVx-k-02E).
+You can obtain a free domain name from [DuckDNS](https://www.duckdns.org/) or [IPv64](https://ipv64.net/) or any other service of your preference to use with Nginx Proxy Manager, also you can use a domain name if you already own. Make sure the domain name is pointing to your server's public IP address. [See how](https://www.youtube.com/watch?v=qlcVx-k-02E).
+
+> [!TIP]
+>The command below can generate interesting names for your domain/homelab.
+
+```bash
+shuf /usr/share/dict/words | head -2 | tr "\n" " "; echo
+```
 
 ## 📌 Tested on
 
