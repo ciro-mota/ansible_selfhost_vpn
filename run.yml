@@ -1,6 +1,6 @@
 ---
 - name: Setup the homeserver
-  hosts: homeserver
+  hosts: wg
   remote_user: root
   gather_facts: true
   become: true

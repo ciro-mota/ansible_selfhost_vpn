@@ -1,2 +1,0 @@
-[homeserver]
-129.xx.xxx.xxx ansible_ssh_private_key_file=~/.ssh/<your-ssh-private-key> ansible_ssh_extra_args="-o IdentitiesOnly=yes"

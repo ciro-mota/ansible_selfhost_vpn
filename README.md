@@ -29,24 +29,24 @@ This repo is forked from [rishavnandi/ansible_selfhost_vpn](https://github.com/r
 - Clone the repo:
 
 ```bash
-git clone https://github.com/ciro-mota/ansible_selfhost_vpn
+git clone https://github.com/ciro-mota/ansible_selfhost_vpn.git && cd "$(basename "$_" .git)
 ```
-- The password to access `wg-easy` needs to be encrypted in `Bcrypt` format. Open a terminal at the root of the `ansible_selfhost_vpn` directory and run the command below to generate it and save it with Ansible Vault.
+- The password to access `wg-easy` needs to be encrypted in `Bcrypt` format. Run the command below to generate it and save it with Ansible Vault.
 
 ```bash
-ansible-vault encrypt_string $(htpasswd -nbBC 12 "" your-password-here | cut -d ':' -f2) --name 'wg_password' >> wireguard/vars/main.yml
+ansible-vault encrypt_string $(htpasswd -nbBC 12 "" your-password-here | cut -d ':' -f2) --name 'wg_password' >> roles/wireguard/vars/main.yml
 ```
 
 - Create a file `vault-pass` with the password you set in the previous step in Ansible Vault in your `/home` directory.
 
-- Enter the server's IP address where WireGuard will be provisioned in the `hosts` file.
+- Enter the instance IP address in the `hosts_vars/wg` file in the line `1`.
 
 - You will need to generate SSH keys and configure them with your cloud provider where you will provision the WireGuard.
 
-- Set your `private key` on the `host` file.
+- Set your `private key` on the `hosts_vars/wg` file in the line `2`.
 
 > [!TIP]
->If using with Oracle, pass the parameter `ansible_user=ubuntu` on the `host` file.
+>If using with Oracle, uncomment the line `4` in the `hosts_vars/wg` file.
 
 - It is necessary to install the `community.docker` module for it to work, run the command below to install it on your system.
 
