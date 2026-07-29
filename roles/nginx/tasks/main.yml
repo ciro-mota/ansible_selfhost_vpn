@@ -1,3 +1,0 @@
-- name: Update and manage OS
-  ansible.builtin.import_tasks:
-   file: nginx.yml
