@@ -1,0 +1,49 @@
+---
+- name: Ensure Caddy config directory exists
+  ansible.builtin.file:
+    path: /etc/caddy
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy Caddyfile to host
+  ansible.builtin.copy:
+    src: Caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create caddy network
+  community.docker.docker_network:
+    name: caddy
+    driver: bridge
+
+- name: Create caddy config volume
+  community.docker.docker_volume:
+    name: caddy_config
+    state: present
+
+- name: Create caddy data volume
+  community.docker.docker_volume:
+    name: caddy_data
+    state: present
+
+- name: Create Caddy Container
+  community.docker.docker_container:
+    name: caddy
+    image: caddy:2.11-alpine
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+      - "443:443/udp"
+    networks:
+      - name: caddy
+    volumes:
+      - "/etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - caddy_config:/config
+      - caddy_data:/data
