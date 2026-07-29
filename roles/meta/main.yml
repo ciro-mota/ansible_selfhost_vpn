@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Ciro Mota
+  description: Ansible Playbooks To Turn A VPS Into A Wireguard VPN Server .
+
+  license: GPL-3.0
+
+  min_ansible_version: "2.20.7"
+
+  galaxy_tags: []
+
+dependencies: []
