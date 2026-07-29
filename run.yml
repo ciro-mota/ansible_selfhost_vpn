@@ -1,5 +1,5 @@
 ---
-- name: Setup the homeserver
+- name: Setup the WireGuard
   hosts: wg
   remote_user: root
   gather_facts: true
@@ -8,5 +8,5 @@
   roles:
     - role: essential
     - role: docker
-    - role: nginx
+    - role: caddy
     - role: wireguard
