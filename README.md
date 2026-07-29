@@ -8,7 +8,7 @@
 
 ![Screenshot](files/screenshot.webp)
 
-This repo is forked from [rishavnandi/ansible_selfhost_vpn](https://github.com/rishavnandi/ansible_selfhost_vpn) and contains Ansible playbooks to setup a self-hosted WireGuard VPN server with my modifications. Originally based on [wg-easy](https://github.com/WeeJeWel/wg-easy) which provides a nice web interface to add and remove clients.
+This repo is forked from [rishavnandi/ansible_selfhost_vpn](https://github.com/rishavnandi/ansible_selfhost_vpn) and contains Ansible playbooks to setup a up to date self-hosted WireGuard VPN server with some modifications. Originally based on [wg-easy](https://github.com/WeeJeWel/wg-easy) which provides a nice web interface to add and remove clients.
 
 ## ⚠️ Support
 
@@ -31,22 +31,15 @@ This repo is forked from [rishavnandi/ansible_selfhost_vpn](https://github.com/r
 ```bash
 git clone https://github.com/ciro-mota/ansible_selfhost_vpn.git && cd "$(basename "$_" .git)
 ```
-- The password to access `wg-easy` needs to be encrypted in `Bcrypt` format. Run the command below to generate it and save it with Ansible Vault.
 
-```bash
-ansible-vault encrypt_string $(htpasswd -nbBC 12 "" your-password-here | cut -d ':' -f2) --name 'wg_password' >> roles/wireguard/vars/main.yml
-```
-
-- Create a file `vault-pass` with the password you set in the previous step in Ansible Vault in your `/home` directory.
-
-- Enter the instance IP address in the `hosts_vars/wg` file in the line `1`.
+- Enter the instance IP address in the `hosts_vars/wg.yml` file in the line `1`.
 
 - You will need to generate SSH keys and configure them with your cloud provider where you will provision the WireGuard.
 
-- Set your `private key` on the `hosts_vars/wg` file in the line `2`.
+- Set your `private key` on the `hosts_vars/wg.yml` file in the line `2`.
 
-> [!TIP]
->If using with Oracle, uncomment the line `4` in the `hosts_vars/wg` file.
+> [!NOTE]
+>Replace `ansible_user` for your instance: `admin` for AWS, or `oci` or `ubuntu` for Oracle and uncomment the line `4` in the `hosts_vars/wg.yml` file for that.
 
 - It is necessary to install the `community.docker` module for it to work, run the command below to install it on your system.
 
@@ -57,23 +50,14 @@ ansible-galaxy collection install community.docker
 - Then simply run the Ansible playbook.
 
 ```bash
-ansible-playbook -i hosts run.yml --vault-password-file ~/vault-pass
-```
-- Finally you can visit the `wg-easy` at your server's IP address on port `51821` to configure your WireGuard devices.
-
-
-## 🔓 Extras
-
-This script also installs the [Nginx Proxy Manager](https://nginxproxymanager.com/guide/) and you can also configure for you can access your services over the internet using a domain name. You should access it through your server's IP address on port `81`.
-
-On your first access you must access it with the credentials below:
-
-```
-Email:    admin@example.com
-Password: changeme
+ansible-playbook -i inventory.yml run.yml
 ```
 
-You can obtain a free domain name from [DuckDNS](https://www.duckdns.org/) or [IPv64](https://ipv64.net/) or any other service of your preference to use with Nginx Proxy Manager, also you can use a domain name if you already own. Make sure the domain name is pointing to your server's public IP address. [See how](https://www.youtube.com/watch?v=qlcVx-k-02E).
+## 🔓 Access
+
+This script also automatically installs the [Caddy](https://caddyserver.com/) and you can also configure the `caddy/files/Caddyfile` for you can access your services over the internet using a domain name.
+
+You can obtain a free domain name from [DuckDNS](https://www.duckdns.org/) or [IPv64](https://ipv64.net/) or any other service of your preference, also you can use a domain name if you already own.
 
 > [!TIP]
 >The command below can generate interesting names for your domain/homelab.
@@ -82,6 +66,8 @@ You can obtain a free domain name from [DuckDNS](https://www.duckdns.org/) or [I
 shuf /usr/share/dict/words | head -2 | tr "\n" " "; echo
 ```
 
+Access it via the URL you configured in the `Caddyfile`. Upon your first login you will need to register your access credentials.
+
 ## 📌 Tested on
 
 <img alt="DigitalOcean" src="https://img.shields.io/badge/DigitalOcean-0080FF?logo=digitalocean&logoColor=fff&style=for-the-badge" />
@@ -89,3 +75,4 @@ shuf /usr/share/dict/words | head -2 | tr "\n" " "; echo
 <img alt="Linode" src="https://img.shields.io/badge/Linode-00A95C?style=for-the-badge&logo=Linode&logoColor=white" />
 
 <img alt="Oracle" src="https://img.shields.io/badge/Oracle-F80000?logo=oracle&logoColor=fff&style=for-the-badge" />
+
